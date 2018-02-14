@@ -1,11 +1,16 @@
 ﻿import { Action, Reducer } from 'redux';
 import { User } from "../domain/User";
+import { AppThunkAction } from './';
+import { userService } from '../_services';
+import { alertActions } from '../_actions';
+import { browserHistory } from '../_helpers';
+
 
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
 
 export interface AuthanticationState {
-    loggedIn?: boolean,
+    loggingIn?: boolean,
     user?: User;
 }
 
@@ -35,10 +40,30 @@ type KnownAction = LoginRequestAction | LoginSuccessAction | LoginFailureAction 
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
 export const actionCreators = {
-    login_request: (user: User) => <LoginRequestAction>{ type: 'USERS_LOGIN_REQUEST', user: user },
-    login_success: (user: User) => <LoginSuccessAction>{ type: 'USERS_LOGIN_SUCCESS', user: user },
-    login_failure: () => <LoginFailureAction>{ type: 'USERS_LOGIN_FAILURE' },
-    logout: () => <LogoutAction>{ type: 'USERS_LOGOUT' }
+    login: (username: string, password: string): AppThunkAction<KnownAction | any> => (dispatch, getState) => {
+        dispatch(request({ username }));
+
+        userService.login(username, password)
+            .then(
+                user => {
+                    dispatch(success(user));
+                    browserHistory.push('/');
+                },
+                error => {
+                    dispatch(failure(error));
+                    dispatch(alertActions.error(error));
+                }
+        );
+        function request(user: User) { return <LoginRequestAction>{ type: 'USERS_LOGIN_REQUEST', user } }
+        function success(user: User) { return <LoginSuccessAction>{ type: 'USERS_LOGIN_SUCCESS', user } }
+        function failure(error: string) { return <LoginFailureAction>{ type: 'USERS_LOGIN_FAILURE', error } }
+    },
+    logout: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        userService.logout();
+        return {
+            type: 'USERS_LOGOUT'
+        };
+    }
 };
 
 // ----------------

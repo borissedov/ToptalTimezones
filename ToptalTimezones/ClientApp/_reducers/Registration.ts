@@ -1,4 +1,9 @@
 ﻿import { Action, Reducer } from 'redux';
+import { AppThunkAction } from './';
+import { User } from "../domain/User";
+import { alertActions } from '../_actions';
+import { browserHistory } from '../_helpers';
+import { userService } from '../_services';
 
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
@@ -26,9 +31,26 @@ type KnownAction = RegisterRequestAction | RegisterSuccessAction | RegisterFailu
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
 export const actionCreators = {
-    register_request: () => <RegisterRequestAction>{ type: 'USERS_REGISTER_REQUEST' },
-    register_success: () => <RegisterSuccessAction>{ type: 'USERS_REGISTER_SUCCESS' },
-    register_failure: () => <RegisterFailureAction>{ type: 'USERS_REGISTER_FAILURE' },
+    register: (user: User): AppThunkAction<KnownAction | any> => (dispatch, getState) => {
+        dispatch(request());
+
+        userService.register(user)
+            .then(
+            () => {
+                dispatch(success());
+                browserHistory.push('/login');
+                dispatch(alertActions.success('Registration successful'));
+            },
+            error => {
+                dispatch(failure());
+                dispatch(alertActions.error(error));
+            }
+            );
+
+        function request() { return <RegisterRequestAction>{ type: 'USERS_REGISTER_REQUEST' } }
+        function success() { return <RegisterSuccessAction>{ type: 'USERS_REGISTER_SUCCESS' } }
+        function failure() { return <RegisterFailureAction>{ type: 'USERS_REGISTER_FAILURE' } }
+    }
 };
 
 // ----------------
@@ -42,9 +64,9 @@ export const reducer: Reducer<RegistrationState> = (state: RegistrationState = {
             return {};
         case 'USERS_REGISTER_FAILURE':
             return {};
-    default:
-        // The following line guarantees that every action in the KnownAction union has been covered by a case above
-        const exhaustiveCheck: never = action;
+        default:
+            // The following line guarantees that every action in the KnownAction union has been covered by a case above
+            const exhaustiveCheck: never = action;
     }
 
     // For unrecognized actions (or in cases where actions have no effect), must return the existing state
