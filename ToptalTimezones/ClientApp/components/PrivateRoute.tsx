@@ -3,15 +3,13 @@ import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router-d
 
 type RouteComponent = React.StatelessComponent<RouteComponentProps<{}>> | React.ComponentClass<any>
 
-const AUTHENTICATED = (localStorage.getItem('user') != null);
-
 export const PrivateRoute: React.StatelessComponent<RouteProps> = ({ component, ...rest }) => {
     const renderFn = (Component?: RouteComponent) => (props: RouteProps) => {
         if (!Component) {
             return null
         }
 
-        if (AUTHENTICATED) {
+        if (localStorage.getItem('user')) {
             return <Component {...props} />
         }
 
