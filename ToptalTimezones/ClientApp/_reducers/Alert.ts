@@ -1,4 +1,5 @@
 ﻿import { Action, Reducer } from 'redux';
+import { AppThunkAction } from './';
 
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
@@ -26,9 +27,15 @@ type KnownAction = AlertSuccessAction | AlertErrorAction | AlertClearAction;
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
 export const actionCreators = {
-    success: (message: string) => <AlertSuccessAction>{ type: 'ALERT_SUCCESS', message: message },
-    error: (message: string) => <AlertErrorAction>{ type: 'ALERT_ERROR', message: message },
-    clear: () => <AlertClearAction>{ type: 'ALERT_CLEAR' }
+    success: (message: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        return { type: 'ALERT_SUCCESS', message };
+    },
+    error: (message: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        return { type: 'ALERT_ERROR', message };
+    },
+    clear: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        return { type: 'ALERT_CLEAR' };
+    }
 };
 
 // ----------------

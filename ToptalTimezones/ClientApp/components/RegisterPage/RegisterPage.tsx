@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as Registration from '../../_reducers/Registration';
-import { userActions } from '../../_actions';
 import { ApplicationState } from "../../_reducers/index";
 import { User } from "../../domain";
 
@@ -30,8 +29,8 @@ class RegistrationPage extends React.Component<RegistrationProps, State> {
             },
             submitted: false
         };
-        //this.handleChange = this.handleChange.bind(this);
-        //this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event: any) {

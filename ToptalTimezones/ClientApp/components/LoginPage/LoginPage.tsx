@@ -2,8 +2,6 @@ import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as Authentication from '../../_reducers/Authantication';
-import { User } from "../../domain/User";
-import { userActions } from '../../_actions';
 import { ApplicationState } from "../../_reducers/index";
 
 // At runtime, Redux will merge together...
@@ -21,7 +19,7 @@ type State = {
 class LoginPage extends React.Component<LoginProps, State> {
     constructor(props: any) {
         super(props);
-        
+
         // reset login status
         this.props.logout();
 
@@ -31,12 +29,12 @@ class LoginPage extends React.Component<LoginProps, State> {
             submitted: false
         };
 
-        //this.handleChange = this.handleChange.bind(this);
-        //this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOnChange = this.handleOnChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     public handleOnChange(event: any): void {
-        this.setState({ [event.name]: event.target.value });
+        this.setState({ [event.target.name]: event.target.value });
     }
 
     handleSubmit(event: any): void {

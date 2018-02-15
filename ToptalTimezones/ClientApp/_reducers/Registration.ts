@@ -1,7 +1,6 @@
 ﻿import { Action, Reducer } from 'redux';
 import { AppThunkAction } from './';
 import { User } from "../domain/User";
-import { alertActions } from '../_actions';
 import { browserHistory } from '../_helpers';
 import { userService } from '../_services';
 
@@ -39,11 +38,11 @@ export const actionCreators = {
             () => {
                 dispatch(success());
                 browserHistory.push('/login');
-                dispatch(alertActions.success('Registration successful'));
+                dispatch({ type: 'ALERT_SUCCESS', message: 'Registration successful' });
             },
             error => {
                 dispatch(failure());
-                dispatch(alertActions.error(error));
+                dispatch({ type: 'ALERT_SUCCESS', message: error });
             }
             );
 

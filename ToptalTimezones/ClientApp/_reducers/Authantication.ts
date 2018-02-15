@@ -2,9 +2,7 @@
 import { User } from "../domain/User";
 import { AppThunkAction } from './';
 import { userService } from '../_services';
-import { alertActions } from '../_actions';
 import { browserHistory } from '../_helpers';
-
 
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
@@ -51,7 +49,7 @@ export const actionCreators = {
                 },
                 error => {
                     dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch({ type: 'ALERT_ERROR', error });
                 }
         );
         function request(user: User) { return <LoginRequestAction>{ type: 'USERS_LOGIN_REQUEST', user } }
