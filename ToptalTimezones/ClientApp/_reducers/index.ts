@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
+import { routerReducer, RouterState } from 'react-router-redux';
 import * as WeatherForecasts from './WeatherForecasts';
 import * as Counter from './Counter';
 import * as Authentication from './Authantication';
 import * as Registration from './Registration';
-//import { users } from './users.reducer';
 import * as Alert from './Alert';
 
 
@@ -26,6 +26,8 @@ export const reducers = {
     authantication: Authentication.reducer,
     registration: Registration.reducer
 };
+
+export const rootReducer = combineReducers<ApplicationState>(Object.assign({}, reducers, { routing: routerReducer }));
 
 // This type can be used as a hint on action creators so that its 'dispatch' and 'getState' params are
 // correctly typed to match your store.

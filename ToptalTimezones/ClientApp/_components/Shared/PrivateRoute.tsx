@@ -18,10 +18,10 @@ export const PrivateRoute: React.StatelessComponent<RouteProps> = ({ component, 
                 pathname: '/login',
                 state: { from: props.location }
             }
-        }
+        };
 
         return <Redirect {...redirectProps} />
-    }
+    };
 
     return <Route {...rest} render={renderFn(component)} />
-}                           
+};                

@@ -28,7 +28,7 @@ namespace ToptalTimezones
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
+//            services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
             services.AddMvc();
             services.AddAutoMapper();
 
@@ -57,6 +57,12 @@ namespace ToptalTimezones
                     };
                 });
 
+            var connectionString = Configuration.GetConnectionString("TimezonesContext");
+//            services.AddEntityFrameworkNpgsql().AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
+
+            services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
+            
+            
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
         }

@@ -3,40 +3,42 @@ import 'bootstrap';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
 import { browserHistory } from './_helpers';
 import configureStore from './configureStore';
-import { ApplicationState } from './_reducers';
-import * as RoutesModule from './routes';
-let routes = RoutesModule.routes;
-
-// Create browser history to use in the Redux store
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href')!;
+import { ApplicationState } from './_reducers'
+import {App} from "./App";
 
 // Get the application-wide store instance, prepopulating with state from the server where available.
 const initialState = (window as any).initialReduxState as ApplicationState;
 const store = configureStore(browserHistory, initialState);
 
-function renderApp() {
-    // This code starts up the React app when it runs in a browser. It sets up the routing configuration
-    // and injects the app into a DOM element.
-    ReactDOM.render(
+
+const renderRoot = (app: JSX.Element) => {
+    ReactDOM.render(app, document.getElementById('react-app'));
+};
+
+if (process.env.NODE_ENV === 'production') {
+    renderRoot((
+        <App store={store} browserHistory={browserHistory} />
+    ));
+} else { // removed in production, hot-reload config
+         // tslint:disable-next-line:no-var-requires
+    const AppContainer = require('react-hot-loader').AppContainer;
+    renderRoot((
         <AppContainer>
-            <Provider store={store}>
-                <ConnectedRouter history={browserHistory} children={routes} />
-            </Provider>
-        </AppContainer>,
-        document.getElementById('react-app')
-    );
-}
+            <App store={store} browserHistory={browserHistory} />
+        </AppContainer>
+    ));
 
-renderApp();
-
-// Allow Hot Module Replacement
-if (module.hot) {
-    module.hot.accept('./routes', () => {
-        routes = require<typeof RoutesModule>('./routes').routes;
-        renderApp();
-    });
+    if (module.hot) {
+        // app
+        module.hot.accept('./App', () => {
+            const NextApp = require('./App').App;
+            renderRoot((
+                <AppContainer>
+                    <NextApp store={store} history={browserHistory} />
+                </AppContainer>
+            ));
+        });
+    }
 }

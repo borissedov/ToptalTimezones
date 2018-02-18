@@ -1,4 +1,4 @@
-﻿import { Action, Reducer } from 'redux';
+﻿import { Reducer } from 'redux';
 import { User } from "../domain/User";
 import { AppThunkAction } from './';
 import { userService } from '../_services';
@@ -49,7 +49,7 @@ export const actionCreators = {
                 },
                 error => {
                     dispatch(failure(error));
-                    dispatch({ type: 'ALERT_ERROR', error });
+                    dispatch({ type: 'ALERT_ERROR', message: error });
                 }
         );
         function request(user: User) { return <LoginRequestAction>{ type: 'USERS_LOGIN_REQUEST', user } }
