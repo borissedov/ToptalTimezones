@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { ApplicationState }  from '../_reducers';
-import * as WeatherForecastsState from '../_reducers/WeatherForecasts';
+import { ApplicationState } from '../../_reducers';
+import * as WeatherForecastsState from '../../_reducers/WeatherForecasts';
 
 // At runtime, Redux will merge together...
 type WeatherForecastProps =
@@ -10,7 +10,7 @@ type WeatherForecastProps =
     & typeof WeatherForecastsState.actionCreators      // ... plus action creators we've requested
     & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
 
-class FetchData extends React.Component<WeatherForecastProps, {}> {
+class FetchDataPage extends React.Component<WeatherForecastProps, {}> {
     componentWillMount() {
         // This method runs when the component is first added to the page
         let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
@@ -70,4 +70,4 @@ class FetchData extends React.Component<WeatherForecastProps, {}> {
 export default connect(
     (state: ApplicationState) => state.weatherForecasts, // Selects which state properties are merged into the component's props
     WeatherForecastsState.actionCreators                 // Selects which action creators are merged into the component's props
-)(FetchData) as typeof FetchData;
+)(FetchDataPage) as typeof FetchDataPage;

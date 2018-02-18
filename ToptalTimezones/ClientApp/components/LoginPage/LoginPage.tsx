@@ -33,7 +33,7 @@ class LoginPage extends React.Component<LoginProps, State> {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    public handleOnChange(event: any): void {
+    handleOnChange(event: any): void {
         this.setState({ [event.target.name]: event.target.value });
     }
 

@@ -1,16 +1,15 @@
 import * as React from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { ApplicationState }  from '../_reducers';
-import * as CounterStore from '../_reducers/Counter';
-import * as WeatherForecasts from '../_reducers/WeatherForecasts';
+import { ApplicationState } from '../../_reducers';
+import * as CounterStore from '../../_reducers/Counter';
 
 type CounterProps =
     CounterStore.CounterState
     & typeof CounterStore.actionCreators
     & RouteComponentProps<{}>;
 
-class Counter extends React.Component<CounterProps, {}> {
+class CounterPage extends React.Component<CounterProps, {}> {
     public render() {
         return <div>
             <h1>Counter</h1>
@@ -28,4 +27,4 @@ class Counter extends React.Component<CounterProps, {}> {
 export default connect(
     (state: ApplicationState) => state.counter, // Selects which state properties are merged into the component's props
     CounterStore.actionCreators                 // Selects which action creators are merged into the component's props
-)(Counter) as typeof Counter;
+)(CounterPage) as typeof CounterPage;
