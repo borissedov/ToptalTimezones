@@ -72,6 +72,6 @@ module.exports = (env) => {
         devtool: 'inline-source-map'
     });
 
-    //return [clientBundleConfig, serverBundleConfig];
-    return clientBundleConfig;
+    return [clientBundleConfig, serverBundleConfig];
+    // return clientBundleConfig;
 };
