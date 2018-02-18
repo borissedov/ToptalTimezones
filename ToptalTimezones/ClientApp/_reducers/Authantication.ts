@@ -58,9 +58,9 @@ export const actionCreators = {
     },
     logout: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
         userService.logout();
-        return {
+        return dispatch({
             type: 'USERS_LOGOUT'
-        };
+        });
     }
 };
 

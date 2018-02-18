@@ -13,10 +13,10 @@ type AlertProps =
     & typeof Alert.actionCreators      // ... plus action creators we've requested
     & RouteComponentProps<{}>;
 
-class AlertBox extends React.Component<any, any> {
+class AlertBox extends React.Component<any, {}> {
     constructor(props: any) {
         super(props);
-
+        
         browserHistory.listen((location, action) => {
             // clear alert on location change
             this.props.clear();
@@ -30,7 +30,7 @@ class AlertBox extends React.Component<any, any> {
             return <div className={`alert ${type}`}>{message}</div>;
         }
         else{
-            return null;
+            return <div> </div>;
         } 
     }
 }

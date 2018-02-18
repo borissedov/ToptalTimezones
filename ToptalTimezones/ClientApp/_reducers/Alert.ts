@@ -28,13 +28,13 @@ type KnownAction = AlertSuccessAction | AlertErrorAction | AlertClearAction;
 
 export const actionCreators = {
     success: (message: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        return { type: 'ALERT_SUCCESS', message };
+        return dispatch({ type: 'ALERT_SUCCESS', message });
     },
     error: (message: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        return { type: 'ALERT_ERROR', message };
+        return dispatch({ type: 'ALERT_ERROR', message });
     },
     clear: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        return { type: 'ALERT_CLEAR' };
+        return dispatch({ type: 'ALERT_CLEAR' });
     }
 };
 
@@ -48,7 +48,7 @@ export const reducer: Reducer<AlertState> = (state: AlertState, action: KnownAct
         case 'ALERT_ERROR':
             return { type: 'alert-danger', message: action.message };
         case 'ALERT_CLEAR':
-            return {};
+            return { type: undefined, message: undefined };
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above
             const exhaustiveCheck: never = action;
