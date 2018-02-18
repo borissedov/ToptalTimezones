@@ -1,5 +1,5 @@
 ﻿import { Reducer } from 'redux';
-import { User } from "../domain/User";
+import { User } from "../domain";
 import { AppThunkAction } from './';
 import { userService } from '../_services';
 import { browserHistory } from '../_helpers';

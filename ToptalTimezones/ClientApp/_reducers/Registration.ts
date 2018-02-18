@@ -1,6 +1,6 @@
-﻿import { Action, Reducer } from 'redux';
+﻿import { Reducer } from 'redux';
 import { AppThunkAction } from './';
-import { User } from "../domain/User";
+import { User } from "../domain";
 import { browserHistory } from '../_helpers';
 import { userService } from '../_services';
 

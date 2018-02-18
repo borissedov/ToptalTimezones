@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { routerReducer, RouterState } from 'react-router-redux';
+import { routerReducer } from 'react-router-redux';
 import * as WeatherForecasts from './WeatherForecasts';
 import * as Counter from './Counter';
 import * as Authentication from './Authantication';
