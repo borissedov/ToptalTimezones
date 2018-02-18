@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as Authentication from '../../_reducers/Authantication';
-import { ApplicationState } from "../../_reducers/index";
+import { ApplicationState } from "../../_reducers";
 
 // At runtime, Redux will merge together...
 type LoginProps =
