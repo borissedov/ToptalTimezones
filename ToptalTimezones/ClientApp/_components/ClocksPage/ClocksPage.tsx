@@ -2,7 +2,6 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import Clock from 'react-live-clock';
 import * as Clocks from "../../_reducers/Clock";
-import * as WeatherForecastsState from "../../_reducers/WeatherForecasts";
 import {connect} from "react-redux";
 import {ApplicationState} from "../../_reducers";
 

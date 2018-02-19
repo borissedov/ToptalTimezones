@@ -3,7 +3,6 @@ import { NavMenu } from './NavMenu';
 import {ApplicationState} from "../../_reducers";
 import {Store} from "redux";
 import AlertBox from "./AlertBox";
-import { History } from 'history';
 
 import {Provider} from "react-redux";
 
