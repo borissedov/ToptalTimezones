@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace ToptalTimezones.Domain
 {
     public class User
@@ -8,5 +10,7 @@ namespace ToptalTimezones.Domain
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        
+        public ICollection<Clock> Clocks { get; set; }
     }
 }

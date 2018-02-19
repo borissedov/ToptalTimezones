@@ -5,6 +5,7 @@ import * as Counter from './Counter';
 import * as Authentication from './Authantication';
 import * as Registration from './Registration';
 import * as Alert from './Alert';
+import * as Clock from "./Clock";
 
 
 // The top-level state object
@@ -14,6 +15,7 @@ export interface ApplicationState {
     alert: Alert.AlertState;
     authantication: Authentication.AuthanticationState;
     registration: Registration.RegistrationState;
+    clocks: Clock.ClocksState;
 }
 
 // Whenever an action is dispatched, Redux will update each top-level application state property using
@@ -24,7 +26,8 @@ export const reducers = {
     weatherForecasts: WeatherForecasts.reducer,
     alert: Alert.reducer,
     authantication: Authentication.reducer,
-    registration: Registration.reducer
+    registration: Registration.reducer,
+    clocks: Clock.reducer
 };
 
 export const rootReducer = combineReducers<ApplicationState>(Object.assign({}, reducers, { routing: routerReducer }));

@@ -20,6 +20,26 @@ namespace ToptalTimezones.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
+            modelBuilder.Entity("ToptalTimezones.Domain.Clock", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CityName");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Timezone");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Clocks");
+                });
+
             modelBuilder.Entity("ToptalTimezones.Domain.User", b =>
                 {
                     b.Property<int>("Id")
@@ -38,6 +58,14 @@ namespace ToptalTimezones.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ToptalTimezones.Domain.Clock", b =>
+                {
+                    b.HasOne("ToptalTimezones.Domain.User", "User")
+                        .WithMany("Clocks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

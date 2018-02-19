@@ -11,12 +11,25 @@
     "skipDefaultLibCheck": true,
     "strict": true,
     "lib": [ "es6", "dom" ],
-    "types": [ "webpack-env" ]
+    "noImplicitAny": false,
+    "types": [ "webpack-env" ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ]
   },
   "exclude": [
-      "bin",
-      "node_modules",
-      "ClientApp/dist",
-      "wwwroot"
+    "bin",
+    "node_modules",
+    "ClientApp/dist",
+    "wwwroot"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "resolveGlobs": true,
+    "forkChecker": true
+  },
+  "typeRoots": [
+    "./node_modules/@types",
+    "./@types"
   ]
 }

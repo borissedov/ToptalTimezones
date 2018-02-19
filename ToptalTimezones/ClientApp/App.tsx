@@ -8,11 +8,12 @@ import LoginPage from "./_components/LoginPage/LoginPage";
 import RegisterPage from "./_components/RegisterPage/RegisterPage";
 import FetchData from "./_components/FetchDataPage/FetchDataPage";
 import LogoutPage from "./_components/LogoutPage/LogoutPage";
-import HomePage from "./_components/HomePage/HomePage";
 import CounterPage from "./_components/CounterPage/CounterPage"; 
 import Layout from "./_components/Shared/Layout"; 
 import {PrivateRoute} from "./_components/Shared";
 import {ApplicationState} from "./_reducers";
+import ClocksPage from "./_components/ClocksPage/ClocksPage";
+import HomePage from "./_components/HomePage/HomePage";
 
 interface Props {
     store: Store<ApplicationState>;
@@ -31,6 +32,7 @@ export class App extends React.Component<Props, {}> {
         let routes = (
             <Layout store={store}>
                 <Route exact path='/' component={HomePage} />
+                <PrivateRoute path='/my_clocks' component={ClocksPage} />
                 <PrivateRoute path='/counter' component={CounterPage} />
                 <Route path='/fetchdata/:startDateIndex?' component={FetchData} />
                 <Route path="/login" component={LoginPage} />
