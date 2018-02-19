@@ -6,9 +6,7 @@ import { Route } from 'react-router-dom';
 import { History } from 'history';
 import LoginPage from "./_components/LoginPage/LoginPage";
 import RegisterPage from "./_components/RegisterPage/RegisterPage";
-import FetchData from "./_components/FetchDataPage/FetchDataPage";
 import LogoutPage from "./_components/LogoutPage/LogoutPage";
-import CounterPage from "./_components/CounterPage/CounterPage"; 
 import Layout from "./_components/Shared/Layout"; 
 import {PrivateRoute} from "./_components/Shared";
 import {ApplicationState} from "./_reducers";
@@ -33,8 +31,6 @@ export class App extends React.Component<Props, {}> {
             <Layout store={store}>
                 <Route exact path='/' component={HomePage} />
                 <PrivateRoute path='/my_clocks' component={ClocksPage} />
-                <PrivateRoute path='/counter' component={CounterPage} />
-                <Route path='/fetchdata/:startDateIndex?' component={FetchData} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
                 <Route path="/logout" component={LogoutPage} />
