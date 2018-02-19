@@ -13,13 +13,16 @@ type ClocksProps =
     & typeof Clocks.actionCreators      // ... plus action creators we've requested
     & RouteComponentProps<{}>; // ... plus incoming routing parameters
 
-class ClocksPage extends React.Component<ClocksProps, { editingClock: Clock }> {
+type ClocksState = { editingClock: Clock, isNew: boolean }
+
+class ClocksPage extends React.Component<ClocksProps, ClocksState> {
     constructor(props: any) {
         super(props);
 
-        this.state = {editingClock: this.props.editingClock}
+        this.state = {editingClock: this.props.editingClock, isNew: false};
 
-        this.onEditClick = this.onEditClick.bind(this);
+        this.onAddClick = this.onAddClick.bind(this);
+        this.onSaveClock = this.onSaveClock.bind(this);
     }
 
     componentWillMount() {
@@ -27,10 +30,10 @@ class ClocksPage extends React.Component<ClocksProps, { editingClock: Clock }> {
         this.props.requestClock();
     }
 
-    // componentWillReceiveProps(nextProps: ClocksProps) {
-    //     // This method runs when incoming props (e.g., route params) change
-    //     this.props.requestClock();
-    // }
+    componentWillReceiveProps(nextProps: ClocksProps) {
+        // This method runs when incoming props (e.g., route params) change
+        this.setState({editingClock: this.props.editingClock})
+    }
 
     onDeleteClick(clock: Clock) {
         this.props.deleteClock(clock);
@@ -38,17 +41,34 @@ class ClocksPage extends React.Component<ClocksProps, { editingClock: Clock }> {
 
     onEditClick(clock: Clock) {
         this.setState({
-            editingClock: clock
+            editingClock: clock,
+            isNew: false
         })
     }
 
+    onAddClick() {
+        this.setState({
+            isNew: true
+        })
+    }
+    
+    onSaveClock(clock: Clock){
+        this.props.saveClock(clock);
+        this.setState({
+            isNew: false
+        })
+    }
+    
     public render() {
-        const {clockSaving, saveClock} = this.props;
-        const {editingClock} = this.state;
+        const {clockSaving} = this.props;
+        const {editingClock, isNew} = this.state;
         return <div>
             <h1>Clocks</h1>
             {this.renderClocksTable()}
-            <ClockEdit clock={editingClock} clockSaving={clockSaving} onSave={saveClock}/>
+            <div className="row">
+                <button className="btn btn-success" onClick={this.onAddClick}>Add</button>
+            </div>
+            <ClockEdit clock={editingClock} clockSaving={clockSaving} isNew={isNew} onSave={this.onSaveClock}/>
         </div>;
     }
 

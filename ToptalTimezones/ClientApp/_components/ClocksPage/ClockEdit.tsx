@@ -7,46 +7,52 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 type ClockEditProps = {
     clock: Clocks.Clock,
     clockSaving: boolean,
+    isNew: boolean,
     onSave(clock: Clocks.Clock)
 }
 
 type ClockEditState = {
-    id?: number,
+    id: number,
     name: string,
     cityName: string,
     timezone: string,
     submitted: boolean,
-    defaultTimezone: string
+    defaultTimezone: string,
+    isNew: boolean
 }
 
 export default class ClockEdit extends React.Component<ClockEditProps, ClockEditState> {
     constructor(props: any) {
         super(props);
+        this.bindState(props);
 
-        this.state = {submitted: false, defaultTimezone: '', ...this.props.clock};
-        
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onTypeheadChange = this.onTypeheadChange.bind(this);
     }
 
     componentWillReceiveProps(nextProps: ClockEditProps) {
+        this.bindState(nextProps);
+    }
+
+    private bindState(props: any) {
         let timezone: string;
         let defaultTimezone: string;
-        if (nextProps.clock.timezone) {
-            timezone = nextProps.clock.timezone;
+        if (props.clock.timezone) {
+            timezone = props.clock.timezone;
             defaultTimezone = timezone;
         } else {
             defaultTimezone = moment.tz.guess();
             timezone = defaultTimezone;
         }
-
         this.state = {
-            id: nextProps.clock.id,
-            name: nextProps.clock.name,
-            cityName: nextProps.clock.cityName,
+            id: props.clock.id ? props.clock.id : 0,
+            name: props.clock.name ? props.clock.name : '',
+            cityName: props.clock.cityName ? props.clock.cityName : '',
             defaultTimezone: defaultTimezone,
             timezone: timezone,
-            submitted: false
+            submitted: false,
+            isNew: props.isNew
         };
     }
 
@@ -66,12 +72,17 @@ export default class ClockEdit extends React.Component<ClockEditProps, ClockEdit
         this.props.onSave({id, name, cityName, timezone});
     }
 
+    onTypeheadChange(selected: string) {
+        this.setState({timezone: selected});
+    }
+
     render() {
         const {clockSaving} = this.props;
-        const {id, name, cityName, timezone, submitted, defaultTimezone} = this.state;
+        const {id, name, cityName, timezone, submitted, defaultTimezone, isNew} = this.state;
+        const visible = isNew || id != 0;
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h2>Clock</h2>
+            <div className={"col-md-6 col-md-offset-3 "  + (visible ? "" : "hidden")}>
+                <h2>{isNew ? "Add Clock" : "Editing Clock: " + name}</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <input type="hidden" name="id" value={id}/>
                     <div className={'form-group' + (submitted && !name ? ' has-error' : '')}>
@@ -93,10 +104,8 @@ export default class ClockEdit extends React.Component<ClockEditProps, ClockEdit
                     <div className={'form-group' + (submitted && !timezone ? ' has-error' : '')}>
                         <label htmlFor="timezone">Timezone</label>
                         <Typeahead
-                            selected={defaultTimezone}
-                            onChange={(selected) => {
-                                this.setState({timezone: selected});
-                            }}
+                            selected={[defaultTimezone]}
+                            onChange={this.onTypeheadChange}
                             options={moment.tz.names().map(tz => ({key: tz, label: tz}))}
                         />
 
