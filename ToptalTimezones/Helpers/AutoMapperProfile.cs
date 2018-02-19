@@ -10,6 +10,9 @@ namespace ToptalTimezones.Helpers
         {
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+            
+            CreateMap<Clock, ClockDto>();
+            CreateMap<ClockDto, Clock>();
         }
     }
 }

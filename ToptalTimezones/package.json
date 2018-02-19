@@ -42,7 +42,8 @@
     "webpack": "2.5.1",
     "webpack-hot-middleware": "2.18.2",
     "webpack-merge": "4.1.0",
-    "react-live-clock": "^2.0.2"
-
+    "react-live-clock": "^2.0.2",
+    "moment-timezone": "^0.5.14",
+    "react-bootstrap-typeahead": "^2.3.2"
   }
 }
