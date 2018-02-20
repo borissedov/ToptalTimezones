@@ -13,13 +13,13 @@ type ClocksProps =
     & typeof Clocks.actionCreators      // ... plus action creators we've requested
     & RouteComponentProps<{}>; // ... plus incoming routing parameters
 
-type ClocksState = { editingClock: Clock, isNew: boolean }
+type ClocksState = { editingClock: Clock, isNew: boolean, filter: string }
 
 class ClocksPage extends React.Component<ClocksProps, ClocksState> {
     constructor(props: any) {
         super(props);
 
-        this.state = {editingClock: this.props.editingClock, isNew: false};
+        this.state = {editingClock: this.props.editingClock, isNew: false, filter: ''};
 
         this.onAddClick = this.onAddClick.bind(this);
         this.onSaveClock = this.onSaveClock.bind(this);
@@ -51,14 +51,20 @@ class ClocksPage extends React.Component<ClocksProps, ClocksState> {
             isNew: true
         })
     }
-    
-    onSaveClock(clock: Clock){
+
+    onSaveClock(clock: Clock) {
         this.props.saveClock(clock);
         this.setState({
             isNew: false
         })
     }
-    
+
+    onFilterChange(event: any) {
+        this.setState({
+            filter: event.target.value
+        })
+    }
+
     public render() {
         const {clockSaving} = this.props;
         const {editingClock, isNew} = this.state;
@@ -66,7 +72,13 @@ class ClocksPage extends React.Component<ClocksProps, ClocksState> {
             <h1>Clocks</h1>
             {this.renderClocksTable()}
             <div className="row">
-                <button className="btn btn-success" onClick={this.onAddClick}>Add</button>
+                <div className="col-md-12">
+                    <button className="btn btn-success" onClick={this.onAddClick}>Add</button>
+                    <div className="col-md-2 pull-right">
+                        <input type="text" className="form-control" placeholder="Filter..."
+                               onChange={(e) => this.onFilterChange(e)}/>
+                    </div>
+                </div>
             </div>
             <ClockEdit clock={editingClock} clockSaving={clockSaving} isNew={isNew} onSave={this.onSaveClock}/>
         </div>;
@@ -85,27 +97,32 @@ class ClocksPage extends React.Component<ClocksProps, ClocksState> {
             </tr>
             </thead>
             <tbody>
-            {this.props.clocks.map(clock =>
-                <tr key={clock.id}>
-                    <td>{clock.name}</td>
-                    <td>{clock.cityName}</td>
-                    <td>{clock.timezone}</td>
-                    <td>
-                        <Clock format={'HH:mm:ss'} ticking={true} timezone={clock.timezone}/>
-                    </td>
-                    <td>
-                        {(moment.tz.zone(clock.timezone).utcOffset(Date.now()) / -60)}
-                    </td>
-                    <td>
-                        <button className="btn btn-sm btn-info" onClick={() => this.onEditClick(clock)}>
-                            <i className="glyphicon glyphicon-edit"/>
-                        </button>
-                        <button className="btn btn-sm btn-danger" onClick={() => this.onDeleteClick(clock)}>
-                            <i className="glyphicon glyphicon-trash"/>
-                        </button>
-                    </td>
-                </tr>
-            )}
+            {this.props.clocks.map(clock => {
+                if (clock.name.toLowerCase().indexOf(this.state.filter.toLocaleLowerCase()) != -1) {
+                    return <tr key={clock.id}>
+                        <td>{clock.name}</td>
+                        <td>{clock.cityName}</td>
+                        <td>{clock.timezone}</td>
+                        <td>
+                            <Clock format={'HH:mm:ss'} ticking={true} timezone={clock.timezone}/>
+                        </td>
+                        <td>
+                            {(moment.tz.zone(clock.timezone).utcOffset(Date.now()) / -60)}
+                        </td>
+                        <td>
+                            <button className="btn btn-sm btn-info" onClick={() => this.onEditClick(clock)}>
+                                <i className="glyphicon glyphicon-edit"/>
+                            </button>
+                            <button className="btn btn-sm btn-danger" onClick={() => this.onDeleteClick(clock)}>
+                                <i className="glyphicon glyphicon-trash"/>
+                            </button>
+                        </td>
+                    </tr>
+                }
+                else {
+                    return null;
+                }
+            })}
             </tbody>
         </table>;
     }
