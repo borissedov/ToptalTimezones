@@ -12,6 +12,7 @@ import {PrivateRoute} from "./_components/Shared";
 import {ApplicationState} from "./_reducers";
 import ClocksPage from "./_components/ClocksPage/ClocksPage";
 import HomePage from "./_components/HomePage/HomePage";
+import UsersPage from "./_components/UsersPage/UsersPage";
 
 interface Props {
     store: Store<ApplicationState>;
@@ -31,6 +32,7 @@ export class App extends React.Component<Props, {}> {
             <Layout store={store}>
                 <Route exact path='/' component={HomePage} />
                 <PrivateRoute path='/my_clocks' component={ClocksPage} />
+                <PrivateRoute path='/user_list' component={UsersPage} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
                 <Route path="/logout" component={LogoutPage} />

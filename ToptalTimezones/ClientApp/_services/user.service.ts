@@ -18,7 +18,7 @@ function login(username: string, password: string) {
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(config.apiUrl + '/users/authenticate', requestOptions)
+    return fetch(config.apiUrl + '/api/users/authenticate', requestOptions)
         .then(handleResponse, handleError)
         .then((user: User) => {
             // login successful if there's a jwt token in the response
@@ -61,7 +61,7 @@ function register(user: User) {
         body: JSON.stringify(user)
     };
 
-    return fetch(config.apiUrl + '/users/register', requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/api/users/register', requestOptions).then(handleResponse, handleError);
 }
 
 //function update(user) {

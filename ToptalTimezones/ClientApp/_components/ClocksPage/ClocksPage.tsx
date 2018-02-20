@@ -48,6 +48,7 @@ class ClocksPage extends React.Component<ClocksProps, ClocksState> {
 
     onAddClick() {
         this.setState({
+            editingClock: {},
             isNew: true
         })
     }

@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import {NavLink, Link} from 'react-router-dom';
 
 export class NavMenu extends React.Component<{}, {}> {
     public render() {
         return <div className='main-nav'>
             <div className='navbar navbar-inverse'>
                 <div className='navbar-header'>
-                    <button type='button' className='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
+                    <button type='button' className='navbar-toggle' data-toggle='collapse'
+                            data-target='.navbar-collapse'>
                         <span className='sr-only'>Toggle navigation</span>
                         <span className='icon-bar'></span>
                         <span className='icon-bar'></span>
@@ -27,6 +28,11 @@ export class NavMenu extends React.Component<{}, {}> {
                                 <span className='glyphicon glyphicon-time'></span> My Clocks
                             </NavLink>
                         </li>
+                        <li>
+                            <NavLink to={'/user_list'} activeClassName='active'>
+                                <span className='glyphicon glyphicon-user'></span> Users
+                            </NavLink>
+                        </li>
                         {this.renderLogout()}
                         {this.renderLogin()}
                         {this.renderRegister()}
@@ -41,7 +47,7 @@ export class NavMenu extends React.Component<{}, {}> {
             return <li>
                 <NavLink to={'/logout'} activeClassName='active'>
                     <span className='glyphicon glyphicon-th-list'></span> Logout
-                       </NavLink>
+                </NavLink>
             </li>;
         }
     }
@@ -51,7 +57,7 @@ export class NavMenu extends React.Component<{}, {}> {
             return <li>
                 <NavLink to={'/login'} activeClassName='active'>
                     <span className='glyphicon glyphicon-th-list'></span> Login
-                       </NavLink>
+                </NavLink>
             </li>;
         }
     }
@@ -61,7 +67,7 @@ export class NavMenu extends React.Component<{}, {}> {
             return <li>
                 <NavLink to={'/register'} activeClassName='active'>
                     <span className='glyphicon glyphicon-th-list'></span> Register
-                       </NavLink>
+                </NavLink>
             </li>;
         }
     }

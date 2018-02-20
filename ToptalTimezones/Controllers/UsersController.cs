@@ -17,7 +17,7 @@ namespace ToptalTimezones.Controllers
 {
 
     [Authorize]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -78,8 +78,8 @@ namespace ToptalTimezones.Controllers
             try
             {
                 // save 
-                _userService.Create(user, userDto.Password);
-                return Ok();
+                var user1 = _userService.Create(user, userDto.Password);
+                return Ok(_mapper.Map<UserDto>(user1));
             }
             catch (AppException ex)
             {
@@ -115,7 +115,7 @@ namespace ToptalTimezones.Controllers
             {
                 // save 
                 _userService.Update(user, userDto.Password);
-                return Ok();
+                return Ok(userDto);
             }
             catch (AppException ex)
             {
