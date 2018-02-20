@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import * as WeatherForecasts from './WeatherForecasts';
-import * as Counter from './Counter';
 import * as Authentication from './Authantication';
 import * as Registration from './Registration';
 import * as Alert from './Alert';
@@ -10,8 +8,6 @@ import * as User from "./User"
 
 // The top-level state object
 export interface ApplicationState {
-    counter: Counter.CounterState;
-    weatherForecasts: WeatherForecasts.WeatherForecastsState;
     alert: Alert.AlertState;
     authantication: Authentication.AuthanticationState;
     registration: Registration.RegistrationState;
@@ -23,8 +19,6 @@ export interface ApplicationState {
 // the reducer with the matching name. It's important that the names match exactly, and that the reducer
 // acts on the corresponding ApplicationState property type.
 export const reducers = {
-    counter: Counter.reducer,
-    weatherForecasts: WeatherForecasts.reducer,
     alert: Alert.reducer,
     authantication: Authentication.reducer,
     registration: Registration.reducer,

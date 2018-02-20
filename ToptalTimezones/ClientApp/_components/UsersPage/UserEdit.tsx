@@ -14,8 +14,9 @@ type UserEditState = {
     password: string,
     firstName: string,
     lastName: string,
+    role: number,
     submitted: boolean,
-    isNew: boolean
+    isNew: boolean,
 }
 
 export default class UserEdit extends React.Component<UserEditProps, UserEditState> {
@@ -38,6 +39,7 @@ export default class UserEdit extends React.Component<UserEditProps, UserEditSta
             lastName: props.user.lastName ? props.user.lastName : '',
             username: props.user.username ? props.user.username : '',
             password: props.user.password ? props.user.password : '',
+            role: props.user.role ? props.user.role : 1,
             submitted: false,
             isNew: props.isNew
         };
@@ -51,47 +53,62 @@ export default class UserEdit extends React.Component<UserEditProps, UserEditSta
         event.preventDefault();
 
         this.setState({submitted: true});
-        const {id, firstName, lastName, username, password} = this.state;
-        this.props.onSave({id, firstName, lastName, username, password});
+        const {id, firstName, lastName, username, password, role} = this.state;
+        this.props.onSave({id, firstName, lastName, username, password, role});
     }
 
     render() {
         const {userSaving} = this.props;
-        const {id, firstName, lastName, username, password, submitted, isNew} = this.state;
+        const {id, firstName, lastName, username, password, role, submitted, isNew} = this.state;
         const visible = isNew || id != 0;
+        const currentUser = JSON.parse(localStorage.getItem('user') as string) as User;
         return (
-            <div className={"col-md-6 col-md-offset-3 "  + (visible ? "" : "hidden")}>
+            <div className={"col-md-6 col-md-offset-3 " + (visible ? "" : "hidden")}>
                 <h2>{isNew ? "Add User" : "Editing User: " + firstName + " " + lastName}</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <input type="hidden" name="id" value={id}/>
                     <div className={'form-group' + (submitted && !firstName ? ' has-error' : '')}>
                         <label htmlFor="firstName">First Name</label>
-                        <input type="text" className="form-control" name="firstName" value={firstName} onChange={this.handleOnChange} />
+                        <input type="text" className="form-control" name="firstName" value={firstName}
+                               onChange={this.handleOnChange}/>
                         {submitted && !firstName &&
                         <div className="help-block">First Name is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !lastName ? ' has-error' : '')}>
                         <label htmlFor="lastName">Last Name</label>
-                        <input type="text" className="form-control" name="lastName" value={lastName} onChange={this.handleOnChange} />
+                        <input type="text" className="form-control" name="lastName" value={lastName}
+                               onChange={this.handleOnChange}/>
                         {submitted && !lastName &&
                         <div className="help-block">Last Name is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
                         <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" value={username} onChange={this.handleOnChange} />
+                        <input type="text" className="form-control" name="username" value={username}
+                               onChange={this.handleOnChange}/>
                         {submitted && !username &&
                         <div className="help-block">Username is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
                         <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" value={password} onChange={this.handleOnChange} />
+                        <input type="password" className="form-control" name="password" value={password}
+                               onChange={this.handleOnChange}/>
                         {submitted && !password &&
                         <div className="help-block">Password is required</div>
                         }
                     </div>
+                    {currentUser.role == 3 && <div className={'form-group'}>
+                        <label htmlFor="password">Role</label>
+                        <select className="form-control" name="role" value={role}
+                                onChange={this.handleOnChange}>
+                            <option value={1}>Registered</option>
+                            <option value={2}>User Manager</option>
+                            <option value={3}>Admin</option>
+                        </select>
+                    </div>
+                    }
                     <div className="form-group">
                         <button className="btn btn-primary">Save</button>
                         {userSaving &&

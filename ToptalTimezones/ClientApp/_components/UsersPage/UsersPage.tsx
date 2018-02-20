@@ -60,6 +60,19 @@ class UsersPage extends React.Component<UsersProps, UsersState> {
         })
     }
 
+    roleNameById(roleId?: number) {
+        switch (roleId) {
+            case 1:
+                return "Registered";
+            case 2:
+                return "User Manager";
+            case 3:
+                return "Admin";
+            default :
+                return "";
+        }
+    }
+
     public render() {
         const {userSaving} = this.props;
         const {editingUser, isNew} = this.state;
@@ -82,25 +95,27 @@ class UsersPage extends React.Component<UsersProps, UsersState> {
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Username</th>
+                <th>Role</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             {this.props.users.map(user => {
-                    return <tr key={user.id}>
-                        <td>{user.firstName}</td>
-                        <td>{user.lastName}</td>
-                        <td>{user.username}</td>
-                        <td>
-                            <button className="btn btn-sm btn-info" onClick={() => this.onEditClick(user)}>
-                                <i className="glyphicon glyphicon-edit"/>
-                            </button>
-                            <button className="btn btn-sm btn-danger" onClick={() => this.onDeleteClick(user)}>
-                                <i className="glyphicon glyphicon-trash"/>
-                            </button>
-                        </td>
-                    </tr>
-                
+                return <tr key={user.id}>
+                    <td>{user.firstName}</td>
+                    <td>{user.lastName}</td>
+                    <td>{user.username}</td>
+                    <td>{this.roleNameById(user.role)}</td>
+                    <td>
+                        <button className="btn btn-sm btn-info" onClick={() => this.onEditClick(user)}>
+                            <i className="glyphicon glyphicon-edit"/>
+                        </button>
+                        <button className="btn btn-sm btn-danger" onClick={() => this.onDeleteClick(user)}>
+                            <i className="glyphicon glyphicon-trash"/>
+                        </button>
+                    </td>
+                </tr>
+
             })}
             </tbody>
         </table>;

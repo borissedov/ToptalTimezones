@@ -6,18 +6,9 @@ using ToptalTimezones.Helpers;
 
 namespace ToptalTimezones.Services
 {
-    public interface IClockService
-    {
-        IEnumerable<Clock> GetAll(int userId = 0);
-        Clock GetById(int id);
-        Clock Create(Clock clock);
-        void Update(Clock clock);
-        void Delete(int id);
-    }
-    
     public class ClockService: IClockService
     {
-        private DataContext _context;
+        private readonly DataContext _context;
 
         public ClockService(DataContext context)
         {

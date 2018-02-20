@@ -6,19 +6,9 @@ using ToptalTimezones.Helpers;
 
 namespace ToptalTimezones.Services
 {
-    public interface IUserService
-    {
-        User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        User Create(User user, string password);
-        void Update(User user, string password = null);
-        void Delete(int id);
-    }
-
     public class UserService : IUserService
     {
-        private DataContext _context;
+        private readonly DataContext _context;
 
         public UserService(DataContext context)
         {
@@ -93,6 +83,7 @@ namespace ToptalTimezones.Services
             user.FirstName = userParam.FirstName;
             user.LastName = userParam.LastName;
             user.Username = userParam.Username;
+            user.Role = userParam.Role;
 
             // update password if it was entered
             if (!string.IsNullOrWhiteSpace(password))

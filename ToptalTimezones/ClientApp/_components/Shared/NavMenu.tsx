@@ -1,8 +1,10 @@
 import * as React from 'react';
 import {NavLink, Link} from 'react-router-dom';
+import {User} from "../../domain";
 
 export class NavMenu extends React.Component<{}, {}> {
     public render() {
+        const user = JSON.parse(localStorage.getItem('user') as string) as User;
         return <div className='main-nav'>
             <div className='navbar navbar-inverse'>
                 <div className='navbar-header'>
@@ -23,19 +25,39 @@ export class NavMenu extends React.Component<{}, {}> {
                                 <span className='glyphicon glyphicon-home'></span> Home
                             </NavLink>
                         </li>
-                        <li>
+                        {user && <li>
                             <NavLink to={'/my_clocks'} activeClassName='active'>
                                 <span className='glyphicon glyphicon-time'></span> My Clocks
                             </NavLink>
                         </li>
-                        <li>
+                        }
+                        {user && (user.role == 2 || user.role == 3) && <li>
                             <NavLink to={'/user_list'} activeClassName='active'>
                                 <span className='glyphicon glyphicon-user'></span> Users
                             </NavLink>
                         </li>
-                        {this.renderLogout()}
-                        {this.renderLogin()}
-                        {this.renderRegister()}
+                        }
+                        {user && <li>
+                            <NavLink to={'/logout'} activeClassName='active'>
+                                <span className='glyphicon glyphicon-th-list'></span> Logout
+                            </NavLink>
+                        </li>
+                        }
+                        {!user && <li>
+                            <NavLink to={'/login'} activeClassName='active'>
+                                <span className='glyphicon glyphicon-th-list'></span> Login
+                            </NavLink>
+                        </li>
+                        }
+                        {!user && <li>
+                            <NavLink to={'/register'} activeClassName='active'>
+                                <span className='glyphicon glyphicon-th-list'></span> Register
+                            </NavLink>
+                        </li>
+                        }
+                        {/*{this.renderLogout()}*/}
+                        {/*{this.renderLogin()}*/}
+                        {/*{this.renderRegister()}*/}
                     </ul>
                 </div>
             </div>
@@ -69,6 +91,7 @@ export class NavMenu extends React.Component<{}, {}> {
                     <span className='glyphicon glyphicon-th-list'></span> Register
                 </NavLink>
             </li>;
+
         }
     }
 }

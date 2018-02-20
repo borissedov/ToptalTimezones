@@ -32,7 +32,7 @@ export class App extends React.Component<Props, {}> {
             <Layout store={store}>
                 <Route exact path='/' component={HomePage} />
                 <PrivateRoute path='/my_clocks' component={ClocksPage} />
-                <PrivateRoute path='/user_list' component={UsersPage} />
+                <PrivateRoute roles={[2, 3]} path='/user_list' component={UsersPage} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
                 <Route path="/logout" component={LogoutPage} />
