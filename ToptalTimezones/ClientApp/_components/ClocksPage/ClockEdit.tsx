@@ -60,9 +60,6 @@ export default class ClockEdit extends React.Component<ClockEditProps, ClockEdit
         this.setState({[event.target.name]: event.target.value});
     }
 
-    handleTimezoneChange(event: any): void {
-        this.setState({timezone: event.target.value});
-    }
 
     handleSubmit(event: any): void {
         event.preventDefault();
@@ -72,8 +69,11 @@ export default class ClockEdit extends React.Component<ClockEditProps, ClockEdit
         this.props.onSave({id, name, cityName, timezone});
     }
 
-    onTypeheadChange(selected: string) {
-        this.setState({timezone: selected});
+    onTypeheadChange(selected: any) {
+        // this.setState({timezone: selected});
+        if (selected && selected.length) {
+            this.setState({timezone: selected[0].key});
+        }
     }
 
     render() {

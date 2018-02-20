@@ -108,7 +108,7 @@ class ClocksPage extends React.Component<ClocksProps, ClocksState> {
                             <Clock format={'HH:mm:ss'} ticking={true} timezone={clock.timezone}/>
                         </td>
                         <td>
-                            {(moment.tz.zone(clock.timezone).utcOffset(Date.now()) / -60)}
+                            {clock.timezone ? (moment.tz.zone(clock.timezone).utcOffset(Date.now()) / -60) : ''}
                         </td>
                         <td>
                             <button className="btn btn-sm btn-info" onClick={() => this.onEditClick(clock)}>
